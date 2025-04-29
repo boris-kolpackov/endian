@@ -1,0 +1,9 @@
+#undef BYTE_ORDER
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+#  define BYTE_ORDER_LITTLE_ENDIAN true
+#elif BYTE_ORDER == BIG_ENDIAN
+#  define BYTE_ORDER_LITTLE_ENDIAN false
+#else
+#  error unexpected byte order
+#endif

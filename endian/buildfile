@@ -1,0 +1,27 @@
+using autoconf
+
+h{config}: in{config}
+
+[rule_hint=c.predefs] buildfile{config}: h{config}
+{
+  c.predefs.poptions = false
+  c.predefs.macros = BYTE_ORDER_LITTLE_ENDIAN@little_endian
+}
+
+./: buildfile{config}
+
+update buildfile{config}
+source $path(buildfile{config})
+
+assert $little_endian 'we now have a big-endian CI config?'
+
+#
+#
+libs =
+#import libs += libhello%lib{hello}
+
+./: exe{endian}: {hxx ixx txx cxx}{**} $libs testscript
+
+cxx.poptions =+ "-I$out_root" "-I$src_root"
+
+cxx.poptions += "-DBYTE_ORDER_LITTLE_ENDIAN=$little_endian"
