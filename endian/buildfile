@@ -8,10 +8,17 @@ h{config}: in{config}
   c.predefs.macros = BYTE_ORDER_LITTLE_ENDIAN@little_endian
 }
 
-./: buildfile{config}
+./: buildfile{config} # Make sure it gets cleaned.
 
-update buildfile{config}
-source $path(buildfile{config})
+if ($build.meta_operation == 'perform')
+{
+  update buildfile{config}
+  source $path(buildfile{config})
+}
+else
+{
+  little_endian = true
+}
 
 assert $little_endian 'we now have a big-endian CI config?'
 
